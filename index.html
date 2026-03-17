@@ -576,11 +576,20 @@ async function loadUsers() {
 function subscribe() {
   db.channel('rt-profiles')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => loadUsers())
-    .subscribe();
+    .subscribe(s => console.log('profiles:', s));
+
   db.channel('rt-messages')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => {
-      chatMsgs.push(p.new); renderChat(chatMsgs);
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+      console.log('msg realtime:', payload);
+      if (payload.new) { chatMsgs.push(payload.new); renderChat(chatMsgs); }
     })
+    .subscribe(status => {
+      console.log('messages channel:', status);
+      if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+        setInterval(loadMessages, 3000);
+      }
+    });
+})
     .subscribe();
 }
 

@@ -89,6 +89,99 @@
     /* APP */
     #appScreen { display: none; }
 
+    /* ── TIMER CARD ── */
+    .timer-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .timer-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .timer-user-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .timer-display {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent2);
+      margin-bottom: 4px;
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .timer-display .timer-icon { font-size: 1.6rem; }
+    .timer-session-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .timer-session-label.studying { color: var(--accent2); }
+    .timer-session-label.break { color: var(--away); }
+    .timer-session-label.offline { color: var(--muted); }
+
+    .timer-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+    .timer-btn {
+      flex: 1;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .timer-btn:active { transform: scale(0.97); }
+    .btn-start {
+      background: var(--accent2);
+      color: #0a0a0f;
+    }
+    .btn-start:hover { background: #3db894; }
+    .btn-finish {
+      background: var(--busy);
+      color: white;
+    }
+    .btn-finish:hover { background: #d94444; }
+    .btn-break {
+      background: var(--away);
+      color: #0a0a0f;
+    }
+    .btn-break:hover { background: #d8921a; }
+    .btn-logout {
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border) !important;
+    }
+    .btn-logout:hover { color: var(--text); border-color: var(--muted) !important; }
+
+    /* ── MY CARD ── */
     .my-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -112,18 +205,6 @@
       margin-bottom: 12px;
     }
     .my-card-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-    .logout-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .logout-btn:hover { border-color: var(--busy); color: var(--busy); }
     .my-card-content { display: flex; align-items: center; gap: 14px; }
     .my-avatar {
       width: 44px; height: 44px;
@@ -138,7 +219,7 @@
     .my-status { font-size: 0.85rem; color: var(--muted); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
     .status-dot-sm { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
     .status-btn {
       padding: 12px 16px;
       border-radius: 12px;
@@ -178,32 +259,89 @@
     }
     .count-badge { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-size: 0.75rem; padding: 2px 8px; border-radius: 20px; }
     .user-list { display: flex; flex-direction: column; gap: 6px; }
+
+    /* ── USER ITEM (updated) ── */
     .user-item {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px 16px;
-      display: flex; align-items: center; gap: 14px; transition: all 0.15s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s;
     }
     .user-item:hover { background: var(--surface2); }
     .user-item.is-me { border-color: rgba(124,106,247,0.4); background: rgba(124,106,247,0.05); }
+    .user-item.is-offline { opacity: 0.5; }
+
     .avatar {
       width: 38px; height: 38px; border-radius: 10px;
       background: var(--surface2);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
-      color: var(--muted); flex-shrink: 0; position: relative; overflow: hidden;
+      color: var(--muted); flex-shrink: 0; position: relative; overflow: visible;
     }
-    .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-    .avatar-badge { position: absolute; bottom: -3px; right: -3px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--surface); }
+    .avatar-img {
+      width: 38px; height: 38px; border-radius: 10px;
+      object-fit: cover;
+    }
+    .avatar-initials {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* Online indicator dot on avatar */
+    .online-dot {
+      position: absolute;
+      bottom: -3px; right: -3px;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 2px solid var(--surface);
+      z-index: 2;
+    }
+    .online-dot.studying { background: var(--online); box-shadow: 0 0 6px var(--online); }
+    .online-dot.break    { background: var(--away); }
+    .online-dot.offline  { background: #3a3a4f; }
+
     .user-meta { flex: 1; min-width: 0; }
-    .user-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .you-tag { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: var(--accent); background: rgba(124,106,247,0.15); padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
-    .user-status-text { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
-    .status-indicator { width: 32px; height: 32px; border-radius: 8px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .user-name-row { display: flex; align-items: center; gap: 6px; }
+    .user-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .you-tag { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: var(--accent); background: rgba(124,106,247,0.15); padding: 1px 6px; border-radius: 4px; flex-shrink: 0; }
+
+    .user-bottom-row { display: flex; align-items: center; justify-content: space-between; margin-top: 3px; }
+    .user-study-status { font-size: 0.78rem; color: var(--muted); }
+    .user-study-status.studying { color: var(--accent2); }
+    .user-study-status.break { color: var(--away); }
+
+    .user-time {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .user-time.active { color: var(--accent2); }
+    .user-time .clock-icon { font-size: 0.7rem; }
+
     .state-msg { text-align: center; padding: 32px; color: var(--muted); font-size: 0.9rem; }
     .pulse { animation: pulse 1.5s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
     .footer { text-align: center; color: var(--muted); font-size: 0.75rem; margin-top: 20px; padding-bottom: 8px; }
     .live-dot { display: inline-block; width: 6px; height: 6px; background: var(--accent2); border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+
+    /* studying pulse on avatar dot */
+    @keyframes studyPulse {
+      0%, 100% { box-shadow: 0 0 4px var(--online); }
+      50% { box-shadow: 0 0 10px var(--online), 0 0 20px rgba(79,200,168,0.3); }
+    }
+    .online-dot.studying { animation: studyPulse 2s infinite; }
   </style>
 </head>
 <body>
@@ -232,10 +370,24 @@
 
   <!-- ОСНОВНОЙ ЭКРАН -->
   <div id="appScreen">
+
+    <!-- ТАЙМЕР -->
+    <div class="timer-card">
+      <div class="timer-user-name" id="timerUserName">Загрузка...</div>
+      <div class="timer-display">
+        <span class="timer-icon">⏱</span>
+        <span id="timerDisplay">0 сек.</span>
+      </div>
+      <div class="timer-session-label offline" id="timerSessionLabel">не в сессии</div>
+      <div class="timer-btn-row" id="timerBtnRow">
+        <!-- кнопки рендерятся динамически -->
+      </div>
+    </div>
+
+    <!-- МОЙ ПРОФИЛЬ -->
     <div class="my-card">
       <div class="my-card-top">
         <div class="my-card-label">Ваш профиль</div>
-        <button class="logout-btn" onclick="logout()">Выйти</button>
       </div>
       <div class="my-card-content">
         <div class="my-avatar" id="myAvatar">?</div>
@@ -249,6 +401,7 @@
       </div>
     </div>
 
+    <!-- СТАТУСЫ -->
     <div class="status-grid">
       <button class="status-btn" id="btn-online" onclick="changeStatus('В сети')">
         <div class="dot" style="background:#4fc8a8"></div> В сети
@@ -264,6 +417,7 @@
       </button>
     </div>
 
+    <!-- СТАТИСТИКА -->
     <div class="stats-bar">
       <div class="stat">
         <div class="stat-num green" id="cnt-online">0</div>
@@ -279,6 +433,7 @@
       </div>
     </div>
 
+    <!-- СПИСОК УЧАСТНИКОВ -->
     <div class="section-title">
       Участники <span class="count-badge" id="total-count">0</span>
     </div>
@@ -295,8 +450,8 @@
 <script>
   const { createClient } = window.supabase;
 
-  const SUPABASE_URL  = 'https://amcacekhqgycrnqzgtch.supabase.co';
-  const SUPABASE_KEY  = 'sb_publishable_2pt4bLheDvE-TU-9m129UQ_YyY0YxER';
+  const SUPABASE_URL = 'https://amcacekhqgycrnqzgtch.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_2pt4bLheDvE-TU-9m129UQ_YyY0YxER';
 
   const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -307,7 +462,164 @@
     'Не беспокоить': { color: '#6b6b80', emoji: '⚫', btn: 'btn-dnd' },
   };
 
+  const STUDY_STATUS_LABELS = {
+    'studying': '📚 Учится',
+    'break':    '☕ Перерыв',
+    'offline':  'Не в сессии',
+  };
+
   let currentUserId = null;
+  let timerInterval = null;
+  let currentUserData = null; // локальный кэш данных текущего юзера
+  // Кэш данных других пользователей для локального подсчёта их времени
+  let allUsersCache = [];
+
+  // ── Форматирование времени ────────────────────────
+  function formatSeconds(totalSec) {
+    if (totalSec < 60) return `${totalSec} сек.`;
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h > 0) return `${h}ч ${m}м ${s}с`;
+    return `${m}м ${s}с`;
+  }
+
+  function formatSecondsShort(totalSec) {
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h > 0) return `${h}ч ${m}м ${s}с`;
+    if (m > 0) return `${m}м ${s}с`;
+    return `${s}с`;
+  }
+
+  // Считает текущее отображаемое время для пользователя
+  function computeDisplaySeconds(user) {
+    let total = user.study_seconds || 0;
+    if (user.study_status === 'studying' && user.session_started_at) {
+      const started = new Date(user.session_started_at).getTime();
+      const elapsed = Math.floor((Date.now() - started) / 1000);
+      total += Math.max(0, elapsed);
+    }
+    return total;
+  }
+
+  // ── Таймер UI ─────────────────────────────────────
+  function startLocalTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (!currentUserData) return;
+      const secs = computeDisplaySeconds(currentUserData);
+      document.getElementById('timerDisplay').textContent = formatSeconds(secs);
+    }, 1000);
+  }
+
+  function renderTimerCard(user) {
+    if (!user) return;
+    currentUserData = user;
+
+    document.getElementById('timerUserName').textContent = user.username || 'Пользователь';
+
+    const secs = computeDisplaySeconds(user);
+    document.getElementById('timerDisplay').textContent = formatSeconds(secs);
+
+    const labelEl = document.getElementById('timerSessionLabel');
+    const status = user.study_status || 'offline';
+    labelEl.textContent = STUDY_STATUS_LABELS[status] || 'Не в сессии';
+    labelEl.className = 'timer-session-label ' + status;
+
+    // Кнопки
+    const btnRow = document.getElementById('timerBtnRow');
+    if (status === 'offline') {
+      btnRow.innerHTML = `
+        <button class="timer-btn btn-start" onclick="startSession()">▶ Начать учёбу</button>
+        <button class="timer-btn btn-logout" onclick="logout()">Выход</button>
+      `;
+    } else if (status === 'studying') {
+      btnRow.innerHTML = `
+        <button class="timer-btn btn-finish" onclick="finishSession()">⏹ Завершить сессию</button>
+        <button class="timer-btn btn-break" onclick="takeBreak()">☕ Перерыв</button>
+        <button class="timer-btn btn-logout" onclick="logout()">Выход</button>
+      `;
+    } else if (status === 'break') {
+      btnRow.innerHTML = `
+        <button class="timer-btn btn-start" onclick="resumeSession()">▶ Продолжить</button>
+        <button class="timer-btn btn-finish" onclick="finishSession()">⏹ Завершить</button>
+        <button class="timer-btn btn-logout" onclick="logout()">Выход</button>
+      `;
+    }
+
+    startLocalTimer();
+  }
+
+  // ── Сессия: старт ────────────────────────────────
+  window.startSession = async () => {
+    if (!currentUserId) return;
+    const now = new Date().toISOString();
+    const { error } = await db.from('profiles').update({
+      study_status: 'studying',
+      session_started_at: now,
+    }).eq('id', currentUserId);
+    if (error) { alert('Ошибка: ' + error.message); return; }
+    if (currentUserData) {
+      currentUserData.study_status = 'studying';
+      currentUserData.session_started_at = now;
+    }
+    renderTimerCard(currentUserData);
+  };
+
+  // ── Сессия: перерыв ──────────────────────────────
+  window.takeBreak = async () => {
+    if (!currentUserId || !currentUserData) return;
+    const elapsed = currentUserData.session_started_at
+      ? Math.floor((Date.now() - new Date(currentUserData.session_started_at).getTime()) / 1000)
+      : 0;
+    const newTotal = (currentUserData.study_seconds || 0) + Math.max(0, elapsed);
+    const { error } = await db.from('profiles').update({
+      study_status: 'break',
+      study_seconds: newTotal,
+      session_started_at: null,
+    }).eq('id', currentUserId);
+    if (error) { alert('Ошибка: ' + error.message); return; }
+    currentUserData.study_status = 'break';
+    currentUserData.study_seconds = newTotal;
+    currentUserData.session_started_at = null;
+    renderTimerCard(currentUserData);
+  };
+
+  // ── Сессия: продолжить после перерыва ───────────
+  window.resumeSession = async () => {
+    if (!currentUserId) return;
+    const now = new Date().toISOString();
+    const { error } = await db.from('profiles').update({
+      study_status: 'studying',
+      session_started_at: now,
+    }).eq('id', currentUserId);
+    if (error) { alert('Ошибка: ' + error.message); return; }
+    currentUserData.study_status = 'studying';
+    currentUserData.session_started_at = now;
+    renderTimerCard(currentUserData);
+  };
+
+  // ── Сессия: завершить ────────────────────────────
+  window.finishSession = async () => {
+    if (!currentUserId || !currentUserData) return;
+    const elapsed = currentUserData.session_started_at
+      ? Math.floor((Date.now() - new Date(currentUserData.session_started_at).getTime()) / 1000)
+      : 0;
+    const newTotal = (currentUserData.study_seconds || 0) + Math.max(0, elapsed);
+    const { error } = await db.from('profiles').update({
+      study_status: 'offline',
+      study_seconds: newTotal,
+      session_started_at: null,
+    }).eq('id', currentUserId);
+    if (error) { alert('Ошибка: ' + error.message); return; }
+    if (timerInterval) clearInterval(timerInterval);
+    currentUserData.study_status = 'offline';
+    currentUserData.study_seconds = newTotal;
+    currentUserData.session_started_at = null;
+    renderTimerCard(currentUserData);
+  };
 
   // ── Вход через Google ────────────────────────────
   window.loginWithGoogle = async () => {
@@ -320,11 +632,29 @@
 
   // ── Выход ────────────────────────────────────────
   window.logout = async () => {
-    if (currentUserId) {
-      await db.from('profiles').update({ status: 'Не беспокоить' }).eq('id', currentUserId);
+    if (currentUserId && currentUserData) {
+      // Сохраняем время если была активная сессия
+      if (currentUserData.study_status === 'studying' && currentUserData.session_started_at) {
+        const elapsed = Math.floor((Date.now() - new Date(currentUserData.session_started_at).getTime()) / 1000);
+        const newTotal = (currentUserData.study_seconds || 0) + Math.max(0, elapsed);
+        await db.from('profiles').update({
+          study_status: 'offline',
+          study_seconds: newTotal,
+          session_started_at: null,
+          status: 'Не беспокоить',
+        }).eq('id', currentUserId);
+      } else {
+        await db.from('profiles').update({
+          study_status: 'offline',
+          session_started_at: null,
+          status: 'Не беспокоить',
+        }).eq('id', currentUserId);
+      }
     }
+    if (timerInterval) clearInterval(timerInterval);
     await db.auth.signOut();
     currentUserId = null;
+    currentUserData = null;
     document.getElementById('appScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'block';
   };
@@ -344,7 +674,7 @@
   function updateMyCard(user) {
     if (!user) return;
     const el = document.getElementById('myAvatar');
-    el.innerHTML = user.avatar_url ? `<img src="${user.avatar_url}" alt="">` : getInitial(user.username);
+    el.innerHTML = user.avatar_url ? `<img src="${user.avatar_url}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">` : getInitial(user.username);
     document.getElementById('myName').textContent = user.username || 'Без имени';
     document.getElementById('myStatusText').textContent = user.status || '—';
     const map = STATUS_MAP[user.status];
@@ -354,44 +684,101 @@
   }
 
   function renderUsers(users) {
+    allUsersCache = users || [];
     const list = document.getElementById('userList');
     if (!users?.length) { list.innerHTML = '<div class="state-msg">Нет участников</div>'; return; }
 
+    // Сортировка: учится → перерыв → онлайн → остальные → офлайн
+    const statusOrder = { studying: 0, break: 1 };
+    const presenceOrder = { 'В сети': 2, 'Отошёл': 3, 'Занят': 4, 'Не беспокоить': 5 };
+
     const sorted = [...users].sort((a, b) => {
-      const aO = a.status === 'В сети' ? 0 : 1;
-      const bO = b.status === 'В сети' ? 0 : 1;
-      if (aO !== bO) return aO - bO;
+      const ao = statusOrder[a.study_status] ?? presenceOrder[a.status] ?? 6;
+      const bo = statusOrder[b.study_status] ?? presenceOrder[b.status] ?? 6;
+      if (ao !== bo) return ao - bo;
       return (a.username || '').localeCompare(b.username || '');
     });
 
     list.innerHTML = sorted.map(u => {
       const map = STATUS_MAP[u.status] || { color: '#6b6b80', emoji: '⚪' };
       const isMe = u.id === currentUserId;
-      const avatarHtml = u.avatar_url ? `<img src="${u.avatar_url}" alt="">` : getInitial(u.username);
+      const studyStatus = u.study_status || 'offline';
+      const secs = computeDisplaySeconds(u);
+      const timeStr = formatSecondsShort(secs);
+      const hasTime = secs > 0;
+
+      const avatarContent = u.avatar_url
+        ? `<img class="avatar-img" src="${u.avatar_url}" alt="">`
+        : `<div class="avatar-initials">${getInitial(u.username)}</div>`;
+
+      const studyLabel = studyStatus === 'studying'
+        ? '📚 Учится'
+        : studyStatus === 'break'
+        ? '☕ Перерыв'
+        : map.emoji + ' ' + (u.status || 'Офлайн');
+
       return `
-        <div class="user-item ${isMe ? 'is-me' : ''}">
-          <div class="avatar">
-            ${avatarHtml}
-            <div class="avatar-badge" style="background:${map.color}"></div>
+        <div class="user-item ${isMe ? 'is-me' : ''} ${studyStatus === 'offline' && u.status === 'Не беспокоить' ? 'is-offline' : ''}">
+          <div class="avatar" style="position:relative;overflow:visible;">
+            ${avatarContent}
+            <div class="online-dot ${studyStatus}"></div>
           </div>
           <div class="user-meta">
-            <div class="user-name">${u.username || 'Без имени'}${isMe ? '<span class="you-tag">вы</span>' : ''}</div>
-            <div class="user-status-text">${map.emoji} ${u.status || 'Нет статуса'}</div>
+            <div class="user-name-row">
+              <div class="user-name">${u.username || 'Без имени'}</div>
+              ${isMe ? '<span class="you-tag">вы</span>' : ''}
+            </div>
+            <div class="user-bottom-row">
+              <div class="user-study-status ${studyStatus}">${studyLabel}</div>
+              ${hasTime
+                ? `<div class="user-time ${studyStatus === 'studying' ? 'active' : ''}">
+                    <span class="clock-icon">⏱</span>${timeStr}
+                  </div>`
+                : ''}
+            </div>
           </div>
-          <div class="status-indicator">${map.emoji}</div>
         </div>`;
     }).join('');
 
     document.getElementById('total-count').textContent = users.length;
-    document.getElementById('cnt-online').textContent = users.filter(u => u.status === 'В сети').length;
-    document.getElementById('cnt-away').textContent = users.filter(u => u.status === 'Отошёл').length;
-    document.getElementById('cnt-busy').textContent = users.filter(u => u.status === 'Занят' || u.status === 'Не беспокоить').length;
-    updateMyCard(users.find(u => u.id === currentUserId));
+    document.getElementById('cnt-online').textContent = users.filter(u => u.study_status === 'studying').length;
+    document.getElementById('cnt-away').textContent  = users.filter(u => u.study_status === 'break').length;
+    document.getElementById('cnt-busy').textContent  = users.filter(u => u.status === 'Занят' || u.status === 'Не беспокоить').length;
+
+    const me = users.find(u => u.id === currentUserId);
+    if (me) updateMyCard(me);
   }
 
   async function loadData() {
     const { data, error } = await db.from('profiles').select('*').order('username', { ascending: true });
-    if (!error) renderUsers(data || []);
+    if (!error && data) {
+      // Обновляем currentUserData из БД (study_seconds, session_started_at могут прийти обновлённые)
+      const me = data.find(u => u.id === currentUserId);
+      if (me) {
+        // Не перезаписываем если у нас активная локальная сессия — иначе сбросится session_started_at
+        if (!currentUserData || currentUserData.study_status !== 'studying') {
+          currentUserData = me;
+          renderTimerCard(me);
+        }
+      }
+      renderUsers(data);
+    }
+  }
+
+  // Локальное обновление времени в списке каждую секунду (без запросов к БД)
+  function startUsersLocalTimer() {
+    setInterval(() => {
+      if (!allUsersCache.length) return;
+      // Обновляем только время у studying пользователей
+      allUsersCache.forEach(u => {
+        if (u.study_status === 'studying' && u.session_started_at) {
+          const secs = computeDisplaySeconds(u);
+          // Обновляем только элемент времени, не перерисовываем весь список
+          const items = document.querySelectorAll('#userList .user-item');
+          // Проще — полный ре-рендер раз в 5 сек через loadData, локально просто обновляем таймеры
+        }
+      });
+    }, 1000);
   }
 
   function subscribe() {
@@ -400,11 +787,9 @@
       .subscribe();
   }
 
-  // ── Запуск приложения после входа ───────────────
   async function startApp(session) {
     currentUserId = session.user.id;
 
-    // Создаём или обновляем профиль
     const name = session.user.user_metadata?.full_name
                || session.user.user_metadata?.name
                || session.user.email?.split('@')[0]
@@ -412,41 +797,47 @@
 
     const avatar = session.user.user_metadata?.avatar_url || null;
 
-    // Проверяем есть ли уже профиль
     const { data: existing } = await db
       .from('profiles')
-      .select('id')
+      .select('*')
       .eq('id', currentUserId)
       .maybeSingle();
 
     if (existing) {
-      // Обновляем статус на "В сети"
       await db.from('profiles')
-        .update({ status: 'В сети', username: name })
+        .update({ status: 'В сети', username: name, avatar_url: avatar })
         .eq('id', currentUserId);
+      // Загружаем актуальные данные
+      const { data: fresh } = await db.from('profiles').select('*').eq('id', currentUserId).single();
+      currentUserData = fresh || { ...existing, status: 'В сети', username: name };
     } else {
-      // Создаём новый профиль
       await db.from('profiles').insert({
         id: currentUserId,
         username: name,
-        status: 'В сети'
+        avatar_url: avatar,
+        status: 'В сети',
+        study_status: 'offline',
+        study_seconds: 0,
+        session_started_at: null,
       });
+      currentUserData = {
+        id: currentUserId, username: name, avatar_url: avatar,
+        status: 'В сети', study_status: 'offline', study_seconds: 0, session_started_at: null,
+      };
     }
 
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appScreen').style.display = 'block';
 
+    renderTimerCard(currentUserData);
     await loadData();
     subscribe();
     setInterval(loadData, 5000);
   }
 
-  // ── Инициализация ────────────────────────────────
   async function init() {
     const { data: { session } } = await db.auth.getSession();
-    if (session) {
-      await startApp(session);
-    }
+    if (session) await startApp(session);
   }
 
   db.auth.onAuthStateChange(async (event, session) => {

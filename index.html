@@ -19,6 +19,9 @@
       --green: #4fc8a8;
       --yellow: #f5a623;
       --red: #f45b5b;
+      --gold: #ffd700;
+      --silver: #c0c0c0;
+      --bronze: #cd7f32;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -112,6 +115,18 @@
     .my-status-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 0.85rem; color: var(--muted); }
     .dot-sm { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
+    /* ACHIEVEMENTS in profile */
+    .my-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .badge-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 500;
+      border: 1px solid; cursor: default;
+    }
+    .badge-pill.common    { background: rgba(79,200,168,0.1);  border-color: rgba(79,200,168,0.3);  color: var(--green); }
+    .badge-pill.rare      { background: rgba(124,106,247,0.1); border-color: rgba(124,106,247,0.3); color: var(--accent); }
+    .badge-pill.epic      { background: rgba(245,166,35,0.1);  border-color: rgba(245,166,35,0.3);  color: var(--yellow); }
+    .badge-pill.legendary { background: rgba(255,215,0,0.15);  border-color: rgba(255,215,0,0.4);   color: var(--gold); }
+
     /* STATUS BUTTONS */
     .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
     .status-btn {
@@ -187,10 +202,129 @@
     .u-slabel.break    { color: var(--yellow); }
     .u-time { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
     .u-time.active { color: var(--accent2); }
+    /* mini badges in user list */
+    .u-badges { display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap; }
+    .u-badge-mini { font-size: 0.8rem; line-height: 1; }
 
     .state-msg { text-align: center; padding: 28px; color: var(--muted); font-size: 0.88rem; }
     .pulse { animation: pulse 1.5s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* ══════════════════════════════════════════
+       LEADERBOARD
+    ══════════════════════════════════════════ */
+    .leaderboard-list { display: flex; flex-direction: column; gap: 8px; }
+    .lb-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px; transition: background 0.15s;
+    }
+    .lb-item:hover { background: #222233; }
+    .lb-item.lb-me { border-color: rgba(124,106,247,0.5); background: rgba(124,106,247,0.07); }
+    .lb-item.lb-1 { border-color: rgba(255,215,0,0.4); background: rgba(255,215,0,0.05); }
+    .lb-item.lb-2 { border-color: rgba(192,192,192,0.35); }
+    .lb-item.lb-3 { border-color: rgba(205,127,50,0.35); }
+
+    .lb-rank {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+      width: 28px; text-align: center; flex-shrink: 0;
+    }
+    .lb-rank.r1 { color: var(--gold); }
+    .lb-rank.r2 { color: var(--silver); }
+    .lb-rank.r3 { color: var(--bronze); }
+    .lb-rank.rn { color: var(--muted); font-size: 0.9rem; }
+
+    .lb-av {
+      width: 36px; height: 36px; border-radius: 10px; overflow: hidden;
+      background: var(--surface); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--muted);
+    }
+    .lb-av img { width: 100%; height: 100%; object-fit: cover; }
+    .lb-meta { flex: 1; min-width: 0; }
+    .lb-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lb-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+    .lb-time {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem;
+      color: var(--accent2); flex-shrink: 0; text-align: right;
+    }
+    .lb-time small { display: block; font-size: 0.62rem; color: var(--muted); font-weight: 400; text-align: right; margin-top: 1px; }
+
+    /* ══════════════════════════════════════════
+       ACHIEVEMENTS WALL
+    ══════════════════════════════════════════ */
+    .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .ach-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 12px;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .ach-card.earned { border-color: rgba(124,106,247,0.35); background: rgba(124,106,247,0.07); }
+    .ach-card.earned.rare      { border-color: rgba(124,106,247,0.4); }
+    .ach-card.earned.epic      { border-color: rgba(245,166,35,0.4); background: rgba(245,166,35,0.05); }
+    .ach-card.earned.legendary { border-color: rgba(255,215,0,0.5); background: rgba(255,215,0,0.06); }
+    .ach-card.locked { opacity: 0.38; filter: grayscale(0.6); }
+    .ach-emoji { font-size: 1.6rem; line-height: 1; }
+    .ach-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; }
+    .ach-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+    .ach-rarity {
+      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 2px 6px; border-radius: 4px; font-family: 'Syne', sans-serif; font-weight: 600;
+    }
+    .ach-rarity.common    { background: rgba(79,200,168,0.15);  color: var(--green); }
+    .ach-rarity.rare      { background: rgba(124,106,247,0.15); color: var(--accent); }
+    .ach-rarity.epic      { background: rgba(245,166,35,0.15);  color: var(--yellow); }
+    .ach-rarity.legendary { background: rgba(255,215,0,0.15);   color: var(--gold); }
+    .ach-earned-date { font-size: 0.65rem; color: var(--muted); }
+    .ach-lock { position: absolute; top: 10px; right: 10px; font-size: 0.8rem; opacity: 0.5; }
+
+    /* ══════════════════════════════════════════
+       TABS
+    ══════════════════════════════════════════ */
+    .tabs {
+      display: flex; gap: 4px; margin-bottom: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 4px;
+    }
+    .tab-btn {
+      flex: 1; padding: 8px 6px; border-radius: 9px; border: none;
+      background: transparent; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .tab-btn.active { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ══════════════════════════════════════════
+       TOAST NOTIFICATION
+    ══════════════════════════════════════════ */
+    #toast-container {
+      position: fixed; top: 20px; right: 16px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 8px;
+      pointer-events: none;
+    }
+    .toast {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 18px;
+      display: flex; align-items: flex-start; gap: 12px;
+      min-width: 260px; max-width: 320px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      animation: toastIn 0.35s cubic-bezier(.4,0,.2,1) forwards;
+      pointer-events: all;
+    }
+    .toast.hide { animation: toastOut 0.3s ease forwards; }
+    .toast.legendary { border-color: rgba(255,215,0,0.5); background: rgba(255,215,0,0.06); }
+    .toast.epic      { border-color: rgba(245,166,35,0.4);  background: rgba(245,166,35,0.05); }
+    .toast.rare      { border-color: rgba(124,106,247,0.4); }
+    @keyframes toastIn  { from { opacity:0; transform:translateX(100%); } to { opacity:1; transform:translateX(0); } }
+    @keyframes toastOut { from { opacity:1; transform:translateX(0); } to { opacity:0; transform:translateX(110%); } }
+    .toast-emoji { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+    .toast-body {}
+    .toast-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; margin-bottom: 2px; }
+    .toast-sub { font-size: 0.75rem; color: var(--muted); }
+    .toast-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; font-family: 'Syne', sans-serif; }
 
     /* CHAT */
     .chat-head { display: flex; align-items: center; gap: 8px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
@@ -247,6 +381,7 @@
   </style>
 </head>
 <body>
+<div id="toast-container"></div>
 <div class="container">
 
   <div class="header">
@@ -264,7 +399,7 @@
         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
       </svg>
       Войти через Google
     </button>
@@ -287,12 +422,13 @@
       <div class="card-label">Ваш профиль</div>
       <div class="my-profile">
         <div class="my-avatar" id="myAv">?</div>
-        <div>
+        <div style="flex:1;min-width:0;">
           <div class="my-name-text" id="myName">—</div>
           <div class="my-status-row">
             <div class="dot-sm" id="myDot" style="background:var(--muted)"></div>
             <span id="myStatusTxt">—</span>
           </div>
+          <div class="my-badges" id="myBadges"></div>
         </div>
       </div>
     </div>
@@ -329,16 +465,44 @@
       </div>
     </div>
 
-    <!-- Список -->
-    <div class="section-title">
-      Участники <span class="badge" id="totalCnt">0</span>
+    <!-- ТАБЫ -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('members')">👥 Участники</button>
+      <button class="tab-btn" onclick="switchTab('leaderboard')">🏆 Рейтинг</button>
+      <button class="tab-btn" onclick="switchTab('achievements')">🎖 Достижения</button>
     </div>
-    <div class="user-list" id="userList">
-      <div class="state-msg pulse">Загрузка...</div>
+
+    <!-- TAB: Участники -->
+    <div class="tab-content active" id="tab-members">
+      <div class="section-title">
+        Участники <span class="badge" id="totalCnt">0</span>
+      </div>
+      <div class="user-list" id="userList">
+        <div class="state-msg pulse">Загрузка...</div>
+      </div>
+    </div>
+
+    <!-- TAB: Рейтинг -->
+    <div class="tab-content" id="tab-leaderboard">
+      <div class="section-title">Топ студентов</div>
+      <div class="leaderboard-list" id="lbList">
+        <div class="state-msg pulse">Загрузка...</div>
+      </div>
+    </div>
+
+    <!-- TAB: Достижения -->
+    <div class="tab-content" id="tab-achievements">
+      <div class="section-title">
+        Все достижения
+        <span class="badge" id="achProgress">0/0</span>
+      </div>
+      <div class="ach-grid" id="achGrid">
+        <div class="state-msg pulse" style="grid-column:1/-1">Загрузка...</div>
+      </div>
     </div>
 
     <!-- Чат -->
-    <div class="card">
+    <div class="card" style="margin-top:14px;">
       <div class="chat-head">💬 Общий чат</div>
       <div class="chat-box" id="chatBox">
         <div class="chat-empty">Сообщений пока нет</div>
@@ -364,6 +528,7 @@ const db = createClient(
   'sb_publishable_2pt4bLheDvE-TU-9m129UQ_YyY0YxER'
 );
 
+// ── Конфиг статусов ──────────────────────────────────────
 const STATUS_CFG = {
   'В сети':        { color: '#4fc8a8', emoji: '🟢', btn: 'sbtn-online' },
   'Отошёл':        { color: '#f5a623', emoji: '🟡', btn: 'sbtn-away' },
@@ -371,39 +536,83 @@ const STATUS_CFG = {
   'Не беспокоить': { color: '#6b6b80', emoji: '⚫', btn: 'sbtn-dnd' },
 };
 
-let me = null;
-let uid = null;
-let allUsers = [];
-let chatMsgs = [];
-let tickId = null;
+// ── Состояние ─────────────────────────────────────────────
+let me          = null;
+let uid         = null;
+let allUsers    = [];
+let chatMsgs    = [];
+let allAch      = [];   // справочник достижений
+let myAchIds    = new Set(); // id ачивок текущего юзера
+let tickId      = null;
+let sessLocked  = false; // защита от двойного нажатия
 
 const $ = id => document.getElementById(id);
 
+// ── Утилиты ──────────────────────────────────────────────
 function initial(n) { return (n || '?').charAt(0).toUpperCase(); }
 
 function fmtSec(s) {
+  s = Math.max(0, Math.floor(s));
   if (s < 60) return `${s} сек.`;
   const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
   return h > 0 ? `${h}ч ${m}м ${sec}с` : `${m}м ${sec}с`;
 }
 function fmtShort(s) {
+  s = Math.max(0, Math.floor(s));
   const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
   return h > 0 ? `${h}ч ${m}м` : m > 0 ? `${m}м ${sec}с` : `${sec}с`;
 }
 function liveSec(u) {
   let t = u.study_seconds || 0;
   if (u.study_status === 'studying' && u.session_started_at)
-    t += Math.max(0, Math.floor((Date.now() - new Date(u.session_started_at).getTime()) / 1000));
+    t += Math.max(0, (Date.now() - new Date(u.session_started_at).getTime()) / 1000);
   return t;
 }
 function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function fmtTime(iso) {
   return new Date(iso).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 }
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('ru-RU', { day:'numeric', month:'short' });
+}
 
-// ── Таймер ──────────────────────────────────────────────
+// ── Табы ─────────────────────────────────────────────────
+window.switchTab = (tab) => {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    const tabs = ['members','leaderboard','achievements'];
+    b.classList.toggle('active', tabs[i] === tab);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.toggle('active', c.id === 'tab-' + tab);
+  });
+  if (tab === 'leaderboard')   renderLeaderboard();
+  if (tab === 'achievements')  renderAchievements();
+};
+
+// ── Toast уведомление ─────────────────────────────────────
+function showToast(ach) {
+  const container = $('toast-container');
+  const div = document.createElement('div');
+  div.className = `toast ${ach.rarity}`;
+  div.innerHTML = `
+    <div class="toast-emoji">${ach.emoji}</div>
+    <div class="toast-body">
+      <div class="toast-label">🎖 Достижение получено!</div>
+      <div class="toast-title">${esc(ach.name)}</div>
+      <div class="toast-sub">${esc(ach.description)}</div>
+    </div>`;
+  container.appendChild(div);
+  setTimeout(() => {
+    div.classList.add('hide');
+    setTimeout(() => div.remove(), 350);
+  }, 4000);
+}
+
+// ── Таймер ───────────────────────────────────────────────
 function tick() { if (me) $('timerVal').textContent = fmtSec(liveSec(me)); }
 
 function renderTimer(u) {
@@ -431,28 +640,54 @@ function renderTimer(u) {
   tickId = setInterval(tick, 1000);
 }
 
+// ── DB patch + проверка новых ачивок ─────────────────────
 async function dbPatch(fields) {
-  const { error } = await db.from('profiles').update(fields).eq('id', uid);
-  if (error) { alert('Ошибка: ' + error.message); return; }
-  Object.assign(me, fields);
-  renderTimer(me);
+  if (sessLocked) return;
+  sessLocked = true;
+  try {
+    const prevAchIds = new Set(myAchIds);
+    const { error } = await db.from('profiles').update(fields).eq('id', uid);
+    if (error) { alert('Ошибка: ' + error.message); return; }
+    Object.assign(me, fields);
+    renderTimer(me);
+    // Проверяем новые ачивки через секунду (триггер успеет отработать)
+    setTimeout(() => checkNewAchievements(prevAchIds), 1200);
+  } finally {
+    sessLocked = false;
+  }
 }
 
-window.sessStart   = () => dbPatch({ study_status: 'studying', session_started_at: new Date().toISOString() });
-window.sessResume  = () => dbPatch({ study_status: 'studying', session_started_at: new Date().toISOString() });
-window.sessBreak   = () => {
+async function checkNewAchievements(prevIds) {
+  const { data } = await db
+    .from('user_achievements')
+    .select('achievement_id, earned_at')
+    .eq('user_id', uid);
+  if (!data) return;
+  for (const row of data) {
+    if (!prevIds.has(row.achievement_id)) {
+      myAchIds.add(row.achievement_id);
+      const ach = allAch.find(a => a.id === row.achievement_id);
+      if (ach) showToast(ach);
+    }
+  }
+  renderMyBadges();
+}
+
+window.sessStart  = () => dbPatch({ study_status: 'studying', session_started_at: new Date().toISOString() });
+window.sessResume = () => dbPatch({ study_status: 'studying', session_started_at: new Date().toISOString() });
+window.sessBreak  = () => {
   const el = me.session_started_at
     ? Math.max(0, Math.floor((Date.now() - new Date(me.session_started_at).getTime()) / 1000)) : 0;
   dbPatch({ study_status: 'break', study_seconds: (me.study_seconds||0)+el, session_started_at: null });
 };
-window.sessFinish  = () => {
+window.sessFinish = () => {
   const el = me.session_started_at
     ? Math.max(0, Math.floor((Date.now() - new Date(me.session_started_at).getTime()) / 1000)) : 0;
   dbPatch({ study_status: 'offline', study_seconds: (me.study_seconds||0)+el, session_started_at: null });
   if (tickId) clearInterval(tickId);
 };
 
-// ── Статус ──────────────────────────────────────────────
+// ── Статус ───────────────────────────────────────────────
 window.setStatus = async txt => {
   if (!uid) return;
   document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
@@ -461,28 +696,39 @@ window.setStatus = async txt => {
   if (error) alert('Ошибка: ' + error.message);
 };
 
-// ── Профиль карточка ────────────────────────────────────
+// ── Профиль ──────────────────────────────────────────────
 function renderMyCard(u) {
   const av = $('myAv');
-  av.innerHTML = u.avatar_url ? `<img src="${u.avatar_url}" alt="" style="width:100%;height:100%;object-fit:cover;">` : initial(u.username);
-  $('myName').textContent    = u.username || '—';
+  av.innerHTML = u.avatar_url
+    ? `<img src="${u.avatar_url}" alt="" style="width:100%;height:100%;object-fit:cover;">`
+    : initial(u.username);
+  $('myName').textContent      = u.username || '—';
   $('myStatusTxt').textContent = u.status || '—';
   const c = STATUS_CFG[u.status];
   $('myDot').style.background = c ? c.color : '#6b6b80';
   document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
   if (c) $(c.btn)?.classList.add('active');
+  renderMyBadges();
 }
 
-// ── Список участников ───────────────────────────────────
+function renderMyBadges() {
+  const container = $('myBadges');
+  const earned = allAch.filter(a => myAchIds.has(a.id));
+  if (!earned.length) { container.innerHTML = ''; return; }
+  container.innerHTML = earned.map(a =>
+    `<span class="badge-pill ${a.rarity}" title="${esc(a.description)}">${a.emoji} ${esc(a.name)}</span>`
+  ).join('');
+}
+
+// ── Участники ────────────────────────────────────────────
 function renderUsers(users) {
   allUsers = users || [];
-  const list = $('userList');
-
   $('totalCnt').textContent    = allUsers.length;
   $('cntStudying').textContent = allUsers.filter(u => u.study_status === 'studying').length;
   $('cntBreak').textContent    = allUsers.filter(u => u.study_status === 'break').length;
   $('cntOffline').textContent  = allUsers.filter(u => !u.study_status || u.study_status === 'offline').length;
 
+  const list = $('userList');
   if (!allUsers.length) { list.innerHTML = '<div class="state-msg">Нет участников</div>'; return; }
 
   const ord = { studying:0, break:1 };
@@ -493,6 +739,7 @@ function renderUsers(users) {
     return ao !== bo ? ao - bo : (a.username||'').localeCompare(b.username||'');
   });
 
+  // загружаем ачивки всех юзеров для отображения значков
   list.innerHTML = sorted.map(u => {
     const isMe = u.id === uid;
     const st   = u.study_status || 'offline';
@@ -500,6 +747,7 @@ function renderUsers(users) {
     const secs = liveSec(u);
     const avH  = u.avatar_url ? `<img src="${u.avatar_url}" alt="">` : initial(u.username);
     const lbl  = st==='studying' ? '📚 Учится' : st==='break' ? '☕ Перерыв' : `${cfg.emoji} ${u.status||'Офлайн'}`;
+    const userBadges = (u._achEmojis || []).slice(0, 4).map(e => `<span class="u-badge-mini" title="">${e}</span>`).join('');
     return `
       <div class="user-item ${isMe?'is-me':''}">
         <div class="u-av-wrap">
@@ -515,12 +763,81 @@ function renderUsers(users) {
             <div class="u-slabel ${st}">${lbl}</div>
             ${secs>0 ? `<div class="u-time ${st==='studying'?'active':''}">⏱ ${fmtShort(secs)}</div>` : ''}
           </div>
+          ${userBadges ? `<div class="u-badges">${userBadges}</div>` : ''}
         </div>
       </div>`;
   }).join('');
 
   const myData = allUsers.find(u => u.id === uid);
   if (myData) renderMyCard(myData);
+}
+
+// ── Рейтинг ──────────────────────────────────────────────
+function renderLeaderboard() {
+  const list = $('lbList');
+  const sorted = [...allUsers]
+    .map(u => ({ ...u, live: liveSec(u) }))
+    .sort((a,b) => b.live - a.live)
+    .filter(u => u.live > 0);
+
+  if (!sorted.length) {
+    list.innerHTML = '<div class="state-msg">Никто ещё не учился</div>';
+    return;
+  }
+
+  list.innerHTML = sorted.map((u, i) => {
+    const rank = i + 1;
+    const rankCls = rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn';
+    const rankTxt = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':`#${rank}`;
+    const isMe = u.id === uid;
+    const avH  = u.avatar_url ? `<img src="${u.avatar_url}" alt="">` : initial(u.username);
+    const st   = u.study_status || 'offline';
+    const stTxt = st==='studying' ? '📚 учится сейчас' : st==='break' ? '☕ перерыв' : `${u.sessions_count||0} сессий`;
+    return `
+      <div class="lb-item lb-${rank} ${isMe?'lb-me':''}">
+        <div class="lb-rank ${rankCls}">${rankTxt}</div>
+        <div class="lb-av">${avH}</div>
+        <div class="lb-meta">
+          <div class="lb-name">${esc(u.username||'Без имени')}${isMe?' 👈':''}</div>
+          <div class="lb-sub">${stTxt}</div>
+        </div>
+        <div class="lb-time">
+          ${fmtShort(u.live)}
+          <small>суммарно</small>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Достижения ───────────────────────────────────────────
+function renderAchievements() {
+  const grid = $('achGrid');
+  $('achProgress').textContent = `${myAchIds.size}/${allAch.length}`;
+  if (!allAch.length) { grid.innerHTML = '<div class="state-msg" style="grid-column:1/-1">Загрузка...</div>'; return; }
+
+  const sorted = [...allAch].sort((a,b) => {
+    const order = { legendary:0, epic:1, rare:2, common:3 };
+    const ea = myAchIds.has(a.id), eb = myAchIds.has(b.id);
+    if (ea !== eb) return ea ? -1 : 1;
+    return (order[a.rarity]??9) - (order[b.rarity]??9);
+  });
+
+  grid.innerHTML = sorted.map(a => {
+    const earned = myAchIds.has(a.id);
+    const earnedData = earned ? '' : '';
+    return `
+      <div class="ach-card ${earned?'earned '+a.rarity:'locked'}">
+        ${!earned ? '<div class="ach-lock">🔒</div>' : ''}
+        <div class="ach-emoji">${a.emoji}</div>
+        <div class="ach-name">${esc(a.name)}</div>
+        <div class="ach-desc">${esc(a.description)}</div>
+        <div class="ach-rarity ${a.rarity}">${rarityLabel(a.rarity)}</div>
+      </div>`;
+  }).join('');
+}
+
+function rarityLabel(r) {
+  return { common:'Обычное', rare:'Редкое', epic:'Эпическое', legendary:'Легендарное' }[r] || r;
 }
 
 // ── Чат ─────────────────────────────────────────────────
@@ -545,8 +862,8 @@ function renderChat(msgs) {
 }
 
 async function loadMessages() {
-  const { data, error } = await db.from('messages').select('*').order('created_at').limit(100);
-  if (!error) renderChat(data || []);
+  const { data } = await db.from('messages').select('*').order('created_at').limit(100);
+  if (data) renderChat(data);
 }
 
 window.sendMsg = async () => {
@@ -556,37 +873,88 @@ window.sendMsg = async () => {
   const btn = $('sendBtn');
   btn.disabled = true;
   input.value = '';
+  const prevAchIds = new Set(myAchIds);
   const { error } = await db.from('messages').insert({
     user_id: uid, username: me.username, avatar_url: me.avatar_url || null, text
   });
   btn.disabled = false;
-  if (error) { alert('Ошибка: ' + error.message); input.value = text; }
+  if (error) { alert('Ошибка: ' + error.message); input.value = text; return; }
+  // Проверяем чат-ачивки
+  setTimeout(() => checkNewAchievements(prevAchIds), 1200);
 };
 
-// ── Загрузка данных ─────────────────────────────────────
+// ── Загрузка данных ──────────────────────────────────────
+async function loadAchievements() {
+  const { data } = await db.from('achievements').select('*').order('rarity');
+  if (data) allAch = data;
+}
+
+async function loadMyAchievements() {
+  const { data } = await db.from('user_achievements').select('achievement_id').eq('user_id', uid);
+  if (data) myAchIds = new Set(data.map(r => r.achievement_id));
+}
+
+// Загружает ачивки для всех юзеров чтобы показать значки в списке
+async function loadUsersAchievements(userIds) {
+  if (!userIds.length || !allAch.length) return {};
+  const { data } = await db
+    .from('user_achievements')
+    .select('user_id, achievement_id')
+    .in('user_id', userIds);
+  const map = {};
+  for (const row of (data || [])) {
+    if (!map[row.user_id]) map[row.user_id] = [];
+    const ach = allAch.find(a => a.id === row.achievement_id);
+    if (ach) map[row.user_id].push(ach.emoji);
+  }
+  return map;
+}
+
 async function loadUsers() {
   const { data, error } = await db.from('profiles').select('*').order('username');
   if (error) { console.error(error); return; }
-  const fresh = (data||[]).find(u => u.id === uid);
-  if (fresh && me && me.study_status !== 'studying') { me = fresh; renderTimer(me); }
-  renderUsers(data || []);
+  const users = data || [];
+
+  // Загружаем ачивки всех участников (для значков в списке)
+  const achMap = await loadUsersAchievements(users.map(u => u.id));
+  for (const u of users) u._achEmojis = achMap[u.id] || [];
+
+  const fresh = users.find(u => u.id === uid);
+  if (fresh && me && me.study_status !== 'studying') {
+    me = { ...fresh, _achEmojis: fresh._achEmojis };
+    renderTimer(me);
+  }
+  renderUsers(users);
 }
 
-// ── Realtime ────────────────────────────────────────────
+// ── Realtime ─────────────────────────────────────────────
 function subscribe() {
   db.channel('rt-profiles')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => loadUsers())
     .subscribe(s => console.log('profiles:', s));
 
+  db.channel('rt-achievements')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'user_achievements' },
+      payload => {
+        if (payload.new?.user_id === uid) {
+          const prevIds = new Set(myAchIds);
+          myAchIds.add(payload.new.achievement_id);
+          const ach = allAch.find(a => a.id === payload.new.achievement_id);
+          if (ach && !prevIds.has(ach.id)) showToast(ach);
+          renderMyBadges();
+          renderAchievements();
+        }
+      })
+    .subscribe(s => console.log('achievements:', s));
+
   db.channel('rt-messages')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-      console.log('msg realtime:', payload);
-      if (payload.new) { chatMsgs.push(payload.new); renderChat(chatMsgs); }
-    })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
+      payload => {
+        if (payload.new) { chatMsgs.push(payload.new); renderChat(chatMsgs); }
+      })
     .subscribe(status => {
-      console.log('messages channel:', status);
       if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-        setInterval(loadMessages, 3000);
+        setInterval(loadMessages, 5000);
       }
     });
 }
@@ -612,7 +980,7 @@ window.doLogout = async () => {
   }
   if (tickId) clearInterval(tickId);
   await db.auth.signOut();
-  uid = null; me = null;
+  uid = null; me = null; allUsers = []; myAchIds = new Set();
   $('appScreen').style.display  = 'none';
   $('loginScreen').style.display = 'block';
 };
@@ -623,15 +991,25 @@ async function startApp(session) {
   const name   = session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'Пользователь';
   const avatar = session.user.user_metadata?.avatar_url || null;
 
+  // Загружаем справочник достижений до всего остального
+  await loadAchievements();
+
   const { data: ex } = await db.from('profiles').select('*').eq('id', uid).maybeSingle();
   if (ex) {
     await db.from('profiles').update({ status:'В сети', username: name, avatar_url: avatar }).eq('id', uid);
     const { data: fr } = await db.from('profiles').select('*').eq('id', uid).single();
     me = fr || { ...ex, status:'В сети', username: name, avatar_url: avatar };
   } else {
-    await db.from('profiles').insert({ id: uid, username: name, avatar_url: avatar, status:'В сети', study_status:'offline', study_seconds:0, session_started_at:null });
-    me = { id: uid, username: name, avatar_url: avatar, status:'В сети', study_status:'offline', study_seconds:0, session_started_at:null };
+    await db.from('profiles').insert({
+      id: uid, username: name, avatar_url: avatar,
+      status:'В сети', study_status:'offline',
+      study_seconds:0, session_started_at:null,
+      sessions_count:0, messages_count:0
+    });
+    me = { id: uid, username: name, avatar_url: avatar, status:'В сети', study_status:'offline', study_seconds:0, session_started_at:null, sessions_count:0, messages_count:0 };
   }
+
+  await loadMyAchievements();
 
   $('loginScreen').style.display = 'none';
   $('appScreen').style.display   = 'block';
@@ -641,7 +1019,9 @@ async function startApp(session) {
   await loadUsers();
   await loadMessages();
   subscribe();
-  setInterval(loadUsers, 8000);
+
+  // Polling только как fallback — realtime основной
+  setInterval(loadUsers, 15000);
 }
 
 async function init() {
